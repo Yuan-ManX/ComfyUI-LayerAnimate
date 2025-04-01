@@ -377,6 +377,16 @@ def reset_all_controls():
     return outputs
 
 
+parser = argparse.ArgumentParser()
+parser.add_argument("--savedir", type=str, default=None)
+parser.add_argument("--L", type=int, default=16 )
+parser.add_argument("--W", type=int, default=512)
+parser.add_argument("--H", type=int, default=320)
+parser.add_argument("--layer_capacity", type=int, default=4)
+parser.add_argument("--device", type=str, default="cuda:0")
+args = parser.parse_args()
+
+
 # ComfyUI Custom Node: Load Images
 class LoadImages:
     @classmethod
@@ -448,15 +458,4 @@ class LayerAnimateNode:
         
         return (generated_video, generated_video_traj)
 
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--savedir", type=str, default=None)
-
-    parser.add_argument("--L", type=int, default=16 )
-    parser.add_argument("--W", type=int, default=512)
-    parser.add_argument("--H", type=int, default=320)
-    parser.add_argument("--layer_capacity", type=int, default=4)
-    parser.add_argument("--device", type=str, default="cuda:0")
-    args = parser.parse_args()
 
