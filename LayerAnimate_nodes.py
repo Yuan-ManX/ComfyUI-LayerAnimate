@@ -9,7 +9,8 @@ import torchvision.transforms as transforms
 from torchvision.transforms import functional as F
 
 import spaces
-import gradio as gr
+from PIL import Image
+from typing import List
 
 from diffusers import DDIMScheduler
 
@@ -374,6 +375,77 @@ def reset_all_controls():
     outputs.extend([False] * args.layer_capacity)    # layer validity
     outputs.extend([False] * args.layer_capacity)    # layer statics
     return outputs
+
+
+# ComfyUI Custom Node: Load Images
+class LoadImages:
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {"required": {"image_paths": ("STRING", {"default": ""})}}
+
+    RETURN_TYPES = ("IMAGE",)
+    FUNCTION = "load"
+    CATEGORY = "LayerAnimate"
+
+    def load(self, image_paths):
+        paths = image_paths.split(",")
+        images = [Image.open(p).convert("RGBA") for p in paths if p.strip()]
+        return (images,)
+
+
+# ComfyUI Custom Node: Load Model
+class LoadPretrainedModel:
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {"required": {"model_path": ("STRING", {"default": "None"})}}
+
+    RETURN_TYPES = ("MODEL",)
+    FUNCTION = "load"
+    CATEGORY = "LayerAnimate"
+
+    def load(self, model_path):
+        model = torch.load(model_path) if model_path != "None" else None
+        return (model,)
+
+
+# ComfyUI Custom Node: Animation Processing
+class LayerAnimateNode:
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "model": ("MODEL",),
+                "input_image": ("IMAGE",),
+                "input_image_end": ("IMAGE",),
+                "text_prompt": ("STRING", {"default": "an anime scene."}),
+                "negative_text_prompt": ("STRING", {"default": ""}),
+                "num_inference_steps": ("INT", {"default": 50, "min": 1, "max": 1000}),
+                "guidance_scale": ("FLOAT", {"default": 7.5}),
+                "seed": ("INT", {"default": 42}),
+                "layer_masks": ("IMAGE",),
+                "layer_masks_end": ("IMAGE",),
+                "layer_controls": ("STRING",),
+                "layer_score_controls": ("FLOAT",),
+                "layer_sketch_controls": ("VIDEO",),
+                "layer_valids": ("BOOL",),
+                "layer_statics": ("BOOL",),
+            }
+        }
+
+    RETURN_TYPES = ("VIDEO", "VIDEO")
+    FUNCTION = "run"
+    CATEGORY = "LayerAnimate"
+
+    def run(self, model, input_image, input_image_end, text_prompt, negative_text_prompt, num_inference_steps,
+            guidance_scale, seed, layer_masks, layer_masks_end, layer_controls, layer_score_controls,
+            layer_sketch_controls, layer_valids, layer_statics):
+        
+        # TODO: Replace with actual model inference logic
+        generated_video = "output_video.mp4"
+        generated_video_traj = "output_video_traj.mp4"
+        
+        return (generated_video, generated_video_traj)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
