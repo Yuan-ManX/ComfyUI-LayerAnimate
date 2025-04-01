@@ -443,6 +443,8 @@ class LayerAnimateNode:
         # TODO: Replace with actual model inference logic
         generated_video = "output_video.mp4"
         generated_video_traj = "output_video_traj.mp4"
+
+        reset_all_controls()
         
         return (generated_video, generated_video_traj)
 
