@@ -1,0 +1,20 @@
+pretrained_model_path: "checkpoints/LayerAnimate-Mix"
+mode: "interpolate"
+demo_dir: "__assets__/demos/demo_3"
+layer_capacity: 4
+motion_scores: [0.4, 0.2, -1, -1]
+layer_static: [false, false, false, false]
+layer_validity: [true, true, true, true]
+sketch_layer_index: 3
+traj_layer_index: 2
+prompt: "an anime scene."
+n_prompt: ""
+fps: 24
+enable_xformers_memory_efficient_attention: True
+mixed_precision: "bf16"
+num_inference_steps: 50
+guidance_scale: 7.5
+guidance_rescale: 0.7
+eta: 1.0
+seed: 52
+num_videos_per_prompt: 1
