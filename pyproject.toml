@@ -1,0 +1,15 @@
+[project]
+name = "layeranimate"
+description = "ComfyUI nodes for LayerAnimate model."
+version = "1.0.0"
+license = {file = "LICENSE"}
+dependencies = ["accelerate==0.31.0", "torch==2.3.1", "torchvision==0.18.1", "diffusers==0.30.2", "transformers==4.25.1", "xformers==0.0.27", "imageio==2.27.0", "imageio-ffmpeg==0.4.9", "decord==0.6.0", "omegaconf==2.3.0", "gradio==5.23.0", "spaces==0.32.0", "open_clip_torch==2.22.0", "deepspeed", "opencv-python", "pycocotools", "safetensors", "einops", "wandb", "scipy"]
+
+[project.urls]
+Repository = "https://github.com/Yuan-ManX/ComfyUI-LayerAnimate"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "ComfyUI-LayerAnimate"
+Icon = ""
